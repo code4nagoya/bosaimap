@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<title>みんなで作る防災マップ</title>
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:title" content="みんなで作る防災マップ" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://code4nagoya.github.io/bosaimap/images/ogp.png" />
+    <meta name="description" content="防災に関して、地域で気がついたことをみんなで投稿していき共有する防災マップです。" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="みんなで作る防災マップ" />
+    <meta name="twitter:image" content="https://code4nagoya.github.io/bosaimap/images/ogp.png" />
+    <meta name="author" content="Code for Nagoya">
+    <meta name="keywords" content="防災,マップ,投稿" />
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+    <link rel="icon" href="./images/apple-touch-icon.png">
+
+    <!-- leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+    <style>
+        html,
+        body,
+        #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
+    <script type="module">
+
+        import { blue } from "https://cdn.jsdelivr.net/gh/linkevery2s/sourcecode@main/leaflet/marker_color/marker_color.mjs";
+
+        onload = async () => {
+
+            const map = L.map('map').setView([35.1845, 136.8941], 11);  
+
+            const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>｜<a href="https://github.com/linkevery2s/share_information_map" target="_blank">GitHub</a>'
+            }).addTo(map);
+
+            const id = "AKfycbyBJvHJvLBtj759KC7a_B8Wn1146lc4uErwG_o9dgZ6tK_oH0KTcD-5atmUakSwnFWQ";
+
+            const res = await fetch("https://script.google.com/macros/s/" + id + "/exec");
+            const data = await res.json();
+
+            let pref = L.geoJSON(data, { onEachFeature: popup_pin, pointToLayer: blue }).addTo(map);
+
+        }
+
+        /* Popup Display */
+        let popup_pin = (feature, layer) => {
+            let popup;
+            if (feature.properties && feature.properties.name) {
+                popup = "件名：" + feature.properties.name;
+
+                if (feature.properties.overview != "") {
+                    popup += "<br>概要：" + feature.properties.overview;
+                } else { }
+
+                if (feature.properties.photo != "") {
+                    popup += "<br><img src='https://lh3.googleusercontent.com/d/" + feature.properties.photo + "' onerror='this.remove()' width='100%'>";
+                } else { }
+
+                if (feature.properties.timestamp != "") {
+                    popup += "<br>" + feature.properties.timestamp;
+                } else { }
+
+            } else { };
+
+            layer.bindPopup(popup);
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <div id='map'></div>
+
+</body>
+
+</html>
