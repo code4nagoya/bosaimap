@@ -29,6 +29,15 @@
 		integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"
+		integrity="sha512-8BqQ2RH4L4sQhV41ZB24fUc1nGcjmrTA6DILV/aTPYuUzo+wBdYdp0fvQ76Sxgf36p787CXF7TktWlcxu/zyOg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"
+		integrity="sha512-cUoWMYmv4H9TGP4hbm1mIjYo90WzIQFo/5jj+P5tQcDTf+iVR59RyIj/a9fRsBxzxt5Dnv/Ex7MzRIxcDwaOLw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 	<script src="./data/water.geojson"></script>
 
 	<style>
@@ -76,6 +85,22 @@
 			font-size: 15px;
 			font-weight: bold !important;
 		}
+
+		.awesome-marker {
+			font-size: 15px;
+			padding-top: 5px;
+		}
+
+		.solid_icon>i {
+			position: absolute;
+			top: -0.5em;
+			left: -0.5em;
+		}
+
+		.color_lightblue{
+			color: #2ca9e1;
+		}
+
 	</style>
 
 	<script type="module">
@@ -104,7 +129,7 @@
 				opacity: 0.8
 			}).addTo(map);
 
-			let water_add = L.geoJSON(water, { onEachFeature: popup_road, pointToLayer: blue });
+			let water_add = L.geoJSON(water, { onEachFeature: popup_water, pointToLayer: blue });
 
 			map.addLayer(water_add);
 
@@ -144,19 +169,25 @@
 
 		/* Font Awesome */
 		let blue = (feature, latlng) => {
-			return L.circleMarker(latlng, {
-				radius: 8,
-				fillColor: "#2ca9e1",
-				color: "#ffffff",
-				weight: 1,
-				opacity: 1,
-				fillOpacity: 0.8
+			return L.marker(latlng, {
+				icon: L.divIcon({
+					/*Font Awesomeの埋め込みコード*/
+					html: '<i class="fas fa-droplet fa-2x"></i>',
+					className: 'color_lightblue solid_icon',
+					iconSize: [0, 0]
+				}),
 			});
+		}
+
+		/* Font Awesome */
+		let water_blue = (feature, latlng) => {
+			let marker = new L.marker(latlng, { icon: L.AwesomeMarkers.icon({ icon: 'droplet', prefix: 'fa', markerColor: 'blue' }) });
+			return marker;
 		}
 
 
 		/* Popup Display */
-		let popup_road = (feature, layer) => {
+		let popup_water = (feature, layer) => {
 			let popup;
 			if (feature.properties && feature.properties.name) {
 				popup = "<h1 class='text-lg mb-3'>" + feature.properties.name + "</h1>" + feature.properties.address + "<br><br>容量：" + feature.properties.capacity + "立方メートル";
