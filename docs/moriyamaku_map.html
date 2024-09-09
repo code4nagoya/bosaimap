@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<title>map</title>
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+	<meta charset="UTF-8" name="viewport"
+		content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<!-- tailwind -->
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+		integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+	<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+		integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+	<script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-pulse-icon@0.1.0/src/L.Icon.Pulse.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/leaflet-pulse-icon@0.1.0/src/L.Icon.Pulse.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+		integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
+		integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<script src="./data/water.geojson"></script>
+
+	<style>
+		html,
+		body,
+		#map {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			z-index: 0;
+		}
+
+		body {
+			font-family: "Source Han Serif JP", "Noto Serif CJK JP", "游明朝体", "Yu Mincho", YuMincho, serif;
+		}
+
+		#map .link {
+			color: #16a085 !important;
+			border-bottom: 1px dotted #16a085;
+		}
+
+		#map .link:after {
+			font-family: "Font Awesome 6 Free";
+			content: ' \f35d';
+			font-weight: 900;
+		}
+
+		.wrapper {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.leaflet-popup-content-wrapper {
+			width: 280px;
+		}
+
+		#yes {
+			color: #ff0000;
+			font-size: 15px;
+			font-weight: bold !important;
+		}
+
+		#no {
+			font-size: 15px;
+			font-weight: bold !important;
+		}
+	</style>
+
+	<script type="module">
+
+		let map;
+
+		onload = async () => {
+
+			const map = L.map('map', {
+				center: [35.199, 136.965,],
+				zoomControl: false,
+				zoom: 17
+			});
+
+			/* コントロールボタン */
+			L.control.zoom({ position: 'topright' }).addTo(map);
+
+			let gps_button = L.easyButton('fa-location-arrow', function () { GPS(); }, { position: 'topright' }).addTo(map);
+
+			const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/maptiler-basic-ja/{z}/{x}/{y}.png', {
+				maxZoom: 19,
+				attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles<br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+			}).addTo(map);
+
+			const shinsui = new L.tileLayer('https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_kuni_data/{z}/{x}/{y}.png', {
+				opacity: 0.8
+			}).addTo(map);
+
+			let water_add = L.geoJSON(water, { onEachFeature: popup_road, pointToLayer: blue });
+
+			map.addLayer(water_add);
+
+			let ido; let keido;
+
+			let marker = null;
+
+			let gps_get = (position) => {
+				ido = position.coords.latitude;
+				keido = position.coords.longitude;
+				map.setView([ido, keido], 15);
+
+				let pulsingIcon = L.icon.pulse({ iconSize: [12, 12], color: 'red', fillColor: 'red' });
+
+				if (map && marker) {
+					map.removeLayer(marker);
+					marker = null;
+				}
+
+				marker = L.marker([ido, keido], { icon: pulsingIcon }).addTo(map);
+
+			}
+
+			let gps_error = (error) => {
+				alert("エラーが発生したので、現在地を取得できませんでした。");
+			}
+
+			let GPS = () => {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(gps_get, gps_error);
+				} else {
+					alert("エラーが発生したので、現在地を取得できませんでした。");
+				}
+			}
+
+		}
+
+		/* Font Awesome */
+		let blue = (feature, latlng) => {
+			return L.circleMarker(latlng, {
+				radius: 8,
+				fillColor: "#2ca9e1",
+				color: "#ffffff",
+				weight: 1,
+				opacity: 1,
+				fillOpacity: 0.8
+			});
+		}
+
+
+		/* Popup Display */
+		let popup_road = (feature, layer) => {
+			let popup;
+			if (feature.properties && feature.properties.name) {
+				popup = "<h1 class='text-lg mb-3'>" + feature.properties.name + "</h1>" + feature.properties.address + "<br><br>容量：" + feature.properties.capacity + "立方メートル";
+
+			} else { };
+
+			layer.bindPopup(popup);
+		}
+
+	</script>
+
+</head>
+
+<body>
+
+	<div id='map'></div>
+
+</body>
+
+</html>

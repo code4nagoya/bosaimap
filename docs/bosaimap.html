@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<title>防災マップ（完成）</title>
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+    <meta charset="UTF-8" name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+        integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.min.js"
+        integrity="sha512-0A4MbfuZq5Au9EdpI1S5rUTXlibNBi8CuZ/X3ycwXyZiCjNzpiO9YH6EMqPgzZm6vfNCuZStBQHjnO17nIC0IQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.EasyButton/2.4.0/easy-button.min.js"
+        integrity="sha512-Tndo4y/YJooD/mGXS9D6F1YyBcSyrWnnSWQ5Z9IcKt6bljicjyka9qcP99qMFbQ5+omfOtwwIapv1DjBCZcTJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.EasyButton/2.4.0/easy-button.css"
+        integrity="sha512-aiVWmB2G8oV+XfHo1CR6hEAxzCl48Lrl3UBzQ6P+BEMkT8qY1tGecdQx6x/X8i9cCVrwQU9ipsOsZlNkRh9n7w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-pulse-icon@0.1.0/src/L.Icon.Pulse.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-pulse-icon@0.1.0/src/L.Icon.Pulse.min.js"></script>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"
+        integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+        html,
+        body,
+        #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+
+    <script type="module">
+
+        import { blue } from "https://cdn.jsdelivr.net/gh/linkevery2s/sourcecode@main/leaflet/marker_color/marker_color.mjs";
+
+        onload = async () => {
+
+			const map = L.map('map', {
+				center: [35.199, 136.965,],
+				zoomControl: false,
+				zoom: 17
+			});
+
+            /* コントロールボタン */
+            L.control.zoom({ position: 'topright' }).addTo(map);
+            
+            let gps_button = L.easyButton('fa-location-arrow', function () { GPS(); }, { position: 'topright' }).addTo(map);
+
+            const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/maptiler-basic-ja/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles｜&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+            }).addTo(map);
+
+            const id = "AKfycbyBJvHJvLBtj759KC7a_B8Wn1146lc4uErwG_o9dgZ6tK_oH0KTcD-5atmUakSwnFWQ";
+
+            const res = await fetch("https://script.google.com/macros/s/" + id + "/exec");
+            const data = await res.json();
+
+            let pref = L.geoJSON(data, { onEachFeature: popup_pin, pointToLayer: blue }).addTo(map);
+
+            /* GPSボタン */
+            let ido;
+            let keido;
+            let marker = null;
+            
+            let gps_get = (position) => {
+                ido = position.coords.latitude;
+                keido = position.coords.longitude;
+                map.setView([ido, keido], 16);
+
+                let pulsingIcon = L.icon.pulse({ iconSize: [12, 12], color: 'red', fillColor: 'red' });
+
+                if (map && marker) {
+                    map.removeLayer(marker);
+                    marker = null;
+                }
+
+                marker = L.marker([ido, keido], { icon: pulsingIcon }).addTo(map);
+
+            }
+
+            let gps_error = (error) => {
+                alert("エラーが発生したので、現在地を取得できませんでした。");
+            }
+
+            let GPS = () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(gps_get, gps_error);
+                } else {
+                    alert("エラーが発生したので、現在地を取得できませんでした。");
+                }
+            }
+
+        }
+
+        /* Popup Display */
+        let popup_pin = (feature, layer) => {
+            let popup;
+            if (feature.properties && feature.properties.name) {
+                popup = "件名：" + feature.properties.name;
+
+                if (feature.properties.overview != "") {
+                    popup += "<br>概要：" + feature.properties.overview;
+                } else { }
+
+                if (feature.properties.photo != "") {
+                    popup += "<br><img src='https://lh3.googleusercontent.com/d/" + feature.properties.photo + "' onerror='this.remove()' width='100%'>";
+                } else { }
+
+                if (feature.properties.timestamp != "") {
+                    popup += "<br>" + feature.properties.timestamp;
+                } else { }
+
+            } else { };
+
+            layer.bindPopup(popup);
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <div id='map'></div>
+
+</body>
+
+</html>
