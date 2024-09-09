@@ -108,7 +108,8 @@
     #overview,
     #map,
     #database,
-    #share {
+    #share,
+    #impressions {
       position: fixed;
       background: rgba(255, 255, 255, 1);
       z-index: 9;
@@ -128,7 +129,8 @@
     #closed-btn,
     #closed-btn2,
     #closed-btn3,
-    #closed-btn4 {
+    #closed-btn4,
+    #closed-btn5 {
       position: absolute;
       top: 5px;
       right: 5px;
@@ -142,7 +144,8 @@
     #closed-btn:hover,
     #closed-btn2:hover,
     #closed-btn3:hover,
-    #closed-btn4:hover {
+    #closed-btn4:hover,
+    #closed-btn5:hover {
       background: #ffffff;
       color: #1e50a2;
       border: 1px solid #1e50a2;
@@ -172,7 +175,8 @@
       #overview,
       #map,
       #database,
-      #share {
+      #share,
+      #impressions {
         left: 70px;
         max-width: 500px;
       }
@@ -201,7 +205,7 @@
     <p class="map"><i class="fa-solid fa-xl fa-map mt-7"></i></p>
     <p class="database"><i class="fa-solid fa-xl fa-database mt-7"></i></p>
     <p class="share"><i class="fa-solid fa-xl fa-share-nodes mt-7"></i></p>
-
+    <p class="impressions"><i class="fa-solid fa-xl fa-bookmark mt-7"></i></p>
   </div>
 
   <div class="nav_button_closed py-2 px-3 mt-1" id="nav_button_closed">
@@ -262,9 +266,14 @@
 
     <p class="mt-5 text-sm mx-3"><a href="https://disaportal.gsi.go.jp/hazardmap/copyright/opendata.html" class="col" target="_blank">ハザードマップポータルサイト</a>、国土交通省</p>
 
-
-
   </div><!-- database -->
+
+  <div id="impressions"><span id="closed-btn5" class="py-2 px-3 text-xs"><i class="fa-solid fa-arrow-left"></i></span>
+    <h1 class="text-xl pl-3 pt-3">感想</h1>
+
+    <p class="my-5 text-sm px-3">Googleフォームのリンク貼る？</p>
+
+  </div><!-- map-->
 
   <div id="share" class="px-3"><span id="closed-btn3" class="py-2 px-3 text-xs"><i
         class="fa-solid fa-arrow-left"></i></span>
@@ -292,6 +301,7 @@
     const home = document.querySelector(".home");
     const map = document.querySelector(".map");
     const database = document.querySelector(".database");
+    const impressions = document.querySelector(".impressions");
     const share = document.querySelector(".share");
 
     home.addEventListener("click", () => {
@@ -299,7 +309,7 @@
       $('#database').fadeOut();
       $('#share').fadeOut();
       $('#map').fadeOut();
-
+      $('#impressions').fadeOut();
     });
 
     map.addEventListener("click", () => {
@@ -307,7 +317,7 @@
       $('#database').fadeOut();
       $('#share').fadeOut();
       $('#map').fadeIn();
-
+      $('#impressions').fadeOut();
     });
 
     database.addEventListener("click", () => {
@@ -315,7 +325,7 @@
       $('#overview').fadeOut();
       $('#share').fadeOut();
       $('#map').fadeOut();
-
+      $('#impressions').fadeOut();
     })
 
     share.addEventListener("click", () => {
@@ -323,13 +333,22 @@
       $('#database').fadeOut();
       $('#overview').fadeOut();
       $('#map').fadeOut();
+      $('#impressions').fadeOut();
+    });
 
+    impressions.addEventListener("click", () => {
+      $('#overview').fadeOut();
+      $('#database').fadeOut();
+      $('#share').fadeOut();
+      $('#map').fadeOut();
+      $('#impressions').fadeIn();
     });
 
     const closed_btn = document.querySelector("#closed-btn");
     const closed_btn2 = document.querySelector("#closed-btn2");
     const closed_btn3 = document.querySelector("#closed-btn3");
     const closed_btn4 = document.querySelector("#closed-btn4");
+    const closed_btn5 = document.querySelector("#closed-btn5");
 
     closed_btn.addEventListener('click', () => {
       $('#overview').fadeOut();
@@ -345,6 +364,10 @@
 
     closed_btn4.addEventListener('click', () => {
       $('#map').fadeOut();
+    });
+
+    closed_btn5.addEventListener('click', () => {
+      $('#impressions').fadeOut();
     });
 
     const nav_closed = document.querySelector(".nav_button_closed");
