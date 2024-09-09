@@ -29,15 +29,6 @@
 		integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.min.js"
-		integrity="sha512-8BqQ2RH4L4sQhV41ZB24fUc1nGcjmrTA6DILV/aTPYuUzo+wBdYdp0fvQ76Sxgf36p787CXF7TktWlcxu/zyOg=="
-		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"
-		integrity="sha512-cUoWMYmv4H9TGP4hbm1mIjYo90WzIQFo/5jj+P5tQcDTf+iVR59RyIj/a9fRsBxzxt5Dnv/Ex7MzRIxcDwaOLw=="
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 	<script src="./data/water.geojson"></script>
 
 	<style>
@@ -84,11 +75,6 @@
 		#no {
 			font-size: 15px;
 			font-weight: bold !important;
-		}
-
-		.awesome-marker {
-			font-size: 15px;
-			padding-top: 5px;
 		}
 
 		.solid_icon>i {
@@ -179,11 +165,6 @@
 			});
 		}
 
-		/* Font Awesome */
-		let water_blue = (feature, latlng) => {
-			let marker = new L.marker(latlng, { icon: L.AwesomeMarkers.icon({ icon: 'droplet', prefix: 'fa', markerColor: 'blue' }) });
-			return marker;
-		}
 
 
 		/* Popup Display */
