@@ -22,9 +22,6 @@
         integrity="sha512-aiVWmB2G8oV+XfHo1CR6hEAxzCl48Lrl3UBzQ6P+BEMkT8qY1tGecdQx6x/X8i9cCVrwQU9ipsOsZlNkRh9n7w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-pulse-icon@0.1.0/src/L.Icon.Pulse.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/leaflet-pulse-icon@0.1.0/src/L.Icon.Pulse.min.js"></script>
-
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -41,7 +38,20 @@
             height: 100%;
             padding: 0;
             margin: 0;
+            z-index: 0;
         }
+
+        body{
+            font-family: "Meiryo", "Hiragino Maru Gothic Pro", sans-serif;
+        }
+
+        #cross {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+            transform: translate(-50%, -50%);
+			z-index: 10;
+		}
     </style>
 
     <script type="module">
@@ -56,41 +66,13 @@
 				zoom: 16
 			});
 
-            /* コントロールボタン */
-            L.control.zoom({ position: 'topright' }).addTo(map);
-            
-            let gps_button = L.easyButton('fa-location-arrow', function () { GPS(); }, { position: 'topright' }).addTo(map);
-
-            const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/maptiler-basic-ja/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles｜&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
-            }).addTo(map);
-
-            const id = "AKfycbyBJvHJvLBtj759KC7a_B8Wn1146lc4uErwG_o9dgZ6tK_oH0KTcD-5atmUakSwnFWQ";
-
-            const res = await fetch("https://script.google.com/macros/s/" + id + "/exec");
-            const data = await res.json();
-
-            let pref = L.geoJSON(data, { onEachFeature: popup_pin, pointToLayer: blue }).addTo(map);
-
             /* GPSボタン */
             let ido;
             let keido;
-            let marker = null;
-            
             let gps_get = (position) => {
                 ido = position.coords.latitude;
                 keido = position.coords.longitude;
                 map.setView([ido, keido], 16);
-
-                let pulsingIcon = L.icon.pulse({ iconSize: [12, 12], color: 'red', fillColor: 'red' });
-
-                if (map && marker) {
-                    map.removeLayer(marker);
-                    marker = null;
-                }
-
-                marker = L.marker([ido, keido], { icon: pulsingIcon }).addTo(map);
 
             }
 
@@ -105,6 +87,25 @@
                     alert("エラーが発生したので、現在地を取得できませんでした。");
                 }
             }
+
+            /* コントロールボタン */
+            L.control.zoom({ position: 'topright' }).addTo(map);
+            
+            let gps_button = L.easyButton('fa-location-arrow', function () { GPS(); }, { position: 'topright' }).addTo(map);
+
+            const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/maptiler-basic-ja/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a><br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+            }).addTo(map);
+
+            const id = "AKfycbyBJvHJvLBtj759KC7a_B8Wn1146lc4uErwG_o9dgZ6tK_oH0KTcD-5atmUakSwnFWQ";
+
+            const res = await fetch("https://script.google.com/macros/s/" + id + "/exec");
+            const data = await res.json();
+
+            let pref = L.geoJSON(data, { onEachFeature: popup_pin, pointToLayer: blue }).addTo(map);
+
+ 
 
         }
 
@@ -136,6 +137,11 @@
 </head>
 
 <body>
+
+	<!-- cross_key -->
+	<div id ="cross">
+		<img id ="img_cross" src="./images/cross.gif">
+	</div>
 
     <div id='map'></div>
 

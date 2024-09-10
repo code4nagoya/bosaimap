@@ -54,6 +54,10 @@
             z-index: 0;
         }
 
+        body{
+            font-family: "Meiryo", "Hiragino Maru Gothic Pro", sans-serif;
+        }
+
         .input {
             position: fixed;
             bottom: 45px;
@@ -103,11 +107,9 @@
 			/* コントロールボタン */
 			L.control.zoom( { position: 'topright' } ).addTo( map );
 
-            let gps_button = L.easyButton('fa-location-arrow', function () { GPS(); }, { position: 'topright' }).addTo(map);
-
             const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/maptiler-basic-ja/{z}/{x}/{y}.png', {
                 maxZoom: 19,
-                attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles<br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+                attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a><br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
             }).addTo(map);
 
             const hash = new L.Hash(map);
@@ -146,6 +148,8 @@
                     alert("エラーが発生したので、現在地を取得できませんでした。");
                 }
             }
+
+            let gps_button = L.easyButton('fa-location-arrow', function () { GPS(); }, { position: 'topright' }).addTo(map);
 
         }
 

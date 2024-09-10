@@ -43,7 +43,7 @@
 		}
 
 		body {
-			font-family: "Source Han Serif JP", "Noto Serif CJK JP", "游明朝体", "Yu Mincho", YuMincho, serif;
+			font-family: "Meiryo", "Hiragino Maru Gothic Pro", sans-serif;
 		}
 
 		#map .link {
@@ -87,6 +87,14 @@
 			color: #2ca9e1;
 		}
 
+		#cross {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+            transform: translate(-50%, -50%);
+			z-index: 10;
+		}
+
 	</style>
 
 	<script type="module">
@@ -101,14 +109,41 @@
 				zoom: 16
 			});
 
+            /* GPSボタン */
+            let ido;
+            let keido;
+            let gps_get = (position) => {
+                ido = position.coords.latitude;
+                keido = position.coords.longitude;
+                map.setView([ido, keido], 16);
+
+            }
+
+            let gps_error = (error) => {
+                alert("エラーが発生したので、現在地を取得できませんでした。");
+            }
+
+            let GPS = () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(gps_get, gps_error);
+                } else {
+                    alert("エラーが発生したので、現在地を取得できませんでした。");
+                }
+            }
+
+			let fpv = () => {
+				location.href = "./fpv.html";
+			}
+
 			/* コントロールボタン */
 			L.control.zoom({ position: 'topright' }).addTo(map);
-
 			let gps_button = L.easyButton('fa-location-arrow', function () { GPS(); }, { position: 'topright' }).addTo(map);
+
+			let fpv_button = L.easyButton('fa-male', function () { fpv(); }, { position: 'topright' }).addTo(map);
 
 			const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/maptiler-basic-ja/{z}/{x}/{y}.png', {
 				maxZoom: 19,
-				attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles<br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+				attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a><br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
 			}).addTo(map);
 
 			const shinsui = new L.tileLayer('https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_kuni_data/{z}/{x}/{y}.png', {
@@ -119,37 +154,6 @@
 
 			map.addLayer(water_add);
 
-			let ido; let keido;
-
-			let marker = null;
-
-			let gps_get = (position) => {
-				ido = position.coords.latitude;
-				keido = position.coords.longitude;
-				map.setView([ido, keido], 15);
-
-				let pulsingIcon = L.icon.pulse({ iconSize: [12, 12], color: 'red', fillColor: 'red' });
-
-				if (map && marker) {
-					map.removeLayer(marker);
-					marker = null;
-				}
-
-				marker = L.marker([ido, keido], { icon: pulsingIcon }).addTo(map);
-
-			}
-
-			let gps_error = (error) => {
-				alert("エラーが発生したので、現在地を取得できませんでした。");
-			}
-
-			let GPS = () => {
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(gps_get, gps_error);
-				} else {
-					alert("エラーが発生したので、現在地を取得できませんでした。");
-				}
-			}
 
 		}
 
@@ -164,7 +168,6 @@
 				}),
 			});
 		}
-
 
 
 		/* Popup Display */
@@ -183,6 +186,11 @@
 </head>
 
 <body>
+
+	<!-- cross_key -->
+	<div id ="cross">
+		<img id ="img_cross" src="./images/cross.gif">
+	</div>
 
 	<div id='map'></div>
 
