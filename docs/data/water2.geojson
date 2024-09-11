@@ -1,0 +1,1 @@
+const water2 = {"features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": ["136.9653", "35.2014"]}, "properties": {"name": "守山小学校", "address": "守山区西島町6−27", "place": "正門前の道路（南側）"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": ["136.9665", "35.2033"]}, "properties": {"name": "守山中学校", "address": "守山区大屋敷13−63", "place": "通用門付近（南側）"}}]};

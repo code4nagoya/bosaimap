@@ -98,6 +98,8 @@
                 attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a><br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
             }).addTo(map);
 
+            const hash = new L.Hash(map);
+
             const id = "AKfycbyBJvHJvLBtj759KC7a_B8Wn1146lc4uErwG_o9dgZ6tK_oH0KTcD-5atmUakSwnFWQ";
 
             const res = await fetch("https://script.google.com/macros/s/" + id + "/exec");
