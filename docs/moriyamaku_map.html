@@ -156,7 +156,12 @@
 			}
 
 			let fpv = () => {
-				location.href = "./fpv.html";
+
+				const url_hash = location.hash;
+
+				console.log(url_hash);
+				
+				//location.href = "./fpv.html";
 			}
 
 			/* コントロールボタン */
@@ -210,7 +215,17 @@
 				"洪水浸水想定区域（想定最大規模）": shinsui
 			};
 
-			L.control.layers(hazardmaps).addTo(map);
+			const pin = {
+				"AED設置箇所": aed_add,
+				"下水道直結式仮設トイレ": toilet_add,
+				"給水拠点": water_add,
+				"給水栓": water2_add,
+				"防災倉庫": warehouse_add,
+				"地域協力事業所": office_add
+
+			}
+
+			L.control.layers(hazardmaps, pin).addTo(map);
 
 		}
 
