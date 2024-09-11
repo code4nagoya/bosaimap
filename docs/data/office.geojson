@@ -1,0 +1,46 @@
+const office = {
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.96004",
+          "35.20083"
+        ]
+      },
+      "properties": {
+        "name": "守山いつき病院",
+        "address": "守山区守山2丁目18−22"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.96423",
+          "35.19795"
+        ]
+      },
+      "properties": {
+        "name": "ピアゴ守山店",
+        "address": "守山区東山町12−26"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.96531",
+          "35.19724"
+        ]
+      },
+      "properties": {
+        "name": "パピーホーム瓢箪山店",
+        "address": "守山区西新7番5号"
+      }
+    }
+  ]
+};

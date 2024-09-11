@@ -34,6 +34,7 @@
 	<script src="./data/water2.geojson"></script>
 	<script src="./data/toilet.geojson"></script>
 	<script src="./data/warehouse.geojson"></script>
+	<script src="./data/office.geojson"></script>
 
 	<style>
 		html,
@@ -103,8 +104,12 @@
 			color: #f08300;
 		}
 
-		.color_house{
+		.color_house {
 			color: #bb5548;
+		}
+
+		.color_office {
+			color: #aa4c8f;
 		}
 
 		#cross {
@@ -169,6 +174,10 @@
 
 			const shinsui = new L.tileLayer('https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_kuni_data/{z}/{x}/{y}.png', {
 				opacity: 0.8
+			});
+
+			const dosya = new L.tileLayer('https://disaportaldata.gsi.go.jp/raster/05_kyukeishakeikaikuiki_data/23/{z}/{x}/{y}.png', {
+				opacity: 0.8
 			}).addTo(map);
 
 			// 給水拠点
@@ -190,6 +199,18 @@
 			// 防災倉庫
 			let warehouse_add = L.geoJSON(warehouse, { onEachFeature: popup_warehouse, pointToLayer: warehouse_point });
 			map.addLayer(warehouse_add);
+
+			// 地域協力事業所
+			let office_add = L.geoJSON(office, { onEachFeature: popup_office, pointToLayer: office_point });
+			map.addLayer(office_add);
+
+			/* レイヤー選択メニュー追加*/
+			const hazardmaps = {
+				"土砂災害(特別)警戒区域": dosya,
+				"洪水浸水想定区域（想定最大規模）": shinsui
+			};
+
+			L.control.layers(hazardmaps).addTo(map);
 
 		}
 
@@ -297,6 +318,28 @@
 			let popup;
 			if (feature.properties && feature.properties.name) {
 				popup = "<h1 class='text-lg mb-3'>防災倉庫</h1>" + feature.properties.name + "<br>" + feature.properties.address + "<br>" + feature.properties.place;
+
+			} else { };
+
+			layer.bindPopup(popup);
+		}
+
+		/* 防災倉庫 */
+		let office_point = (feature, latlng) => {
+			return L.marker(latlng, {
+				icon: L.divIcon({
+					/*Font Awesomeの埋め込みコード*/
+					html: '<i class="fa-solid fa-home fa-2x"></i>',
+					className: 'color_office solid_icon',
+					iconSize: [0, 0]
+				}),
+			});
+		}
+
+		let popup_office = (feature, layer) => {
+			let popup;
+			if (feature.properties && feature.properties.name) {
+				popup = "<h1 class='text-lg mb-3'>地域協力事業所</h1>" + feature.properties.name + "<br>" + feature.properties.address;
 
 			} else { };
 
