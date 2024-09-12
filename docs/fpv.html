@@ -108,13 +108,21 @@
 
       const url_hash = location.hash;
 
+      console.log(url_hash);
+
+      let lat; let lng;
+
 
       if (url_hash === "") {
 
+        lat = 35.199;
+        lng = 136.965;
+
 
       } else {
-        year = url_hash.split("#")[1];
+        lat = Number(url_hash.split("!")[1].split("/")[0]);
 
+        lng = Number(url_hash.split("!")[1].split("/")[1]);
 
       }
 
@@ -174,14 +182,14 @@
       });*/
 
       let initialViewState = {
-        longitude: 136.965,
-        latitude: 35.199,
+        longitude: lng,
+        latitude: lat,
         zoom: 13,
         minZoom: 11,
         maxZoom: 20,
-        pitch: -25,
+        pitch: 0,
         bearing: 0,
-        position: [30, -90, 10]
+        position: [30, -90, 30]
       };
 
       let rotateCamera = () => {

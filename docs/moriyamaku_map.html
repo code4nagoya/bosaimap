@@ -138,11 +138,11 @@
 			display: none;
 			height: 85%;
 			max-height: 800px;
-			left: 50%;
+			right: 10px;
 			position: fixed;
 			top: 50%;
-			transform: translate(-50%, -50%);
-			width: 85%;
+			transform: translateY(-50%);
+			width: 80%;
 			max-width: 500px;
 			z-index: 11;
 			background: #ffffff;
@@ -215,11 +215,13 @@
 				const url_hash = location.hash;
 				let hash_last = url_hash.split("#");
 
-				console.log(hash_last[1].split("/")[1]);
+				let lat = hash_last[1].split("/")[1];
+
+				let lng = hash_last[1].split("/")[2];
 
 				const gl = document.querySelector("#gl");
 
-				gl.innerHTML = "<iframe src='./fpv.html' width='100%' height='100%'></iframe>"
+				gl.innerHTML = "<iframe src='./fpv.html#!" + lat + "/" + lng + "' width='100%' height='100%'></iframe>"
 
 				$('#overlay').fadeIn();
 				$('#fpv').fadeIn();
