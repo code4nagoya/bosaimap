@@ -29,6 +29,9 @@
 		integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 	<script src="./data/water.geojson"></script>
 	<script src="./data/aed.geojson"></script>
 	<script src="./data/water2.geojson"></script>
@@ -119,6 +122,58 @@
 			transform: translate(-50%, -50%);
 			z-index: 10;
 		}
+
+		#overlay {
+			width: 100%;
+			height: 120vh;
+			position: fixed;
+			top: 0;
+			left: 0;
+			background: rgba(0, 0, 0, .8);
+			display: none;
+			z-index: 11;
+		}
+
+		#fpv {
+			display: none;
+			height: 85%;
+			max-height: 800px;
+			left: 50%;
+			position: fixed;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 85%;
+			max-width: 500px;
+			z-index: 11;
+			background: #ffffff;
+			padding: .3em;
+			border-radius: .3em;
+		}
+
+		#gl{
+			height: 100%;
+			width: 100%;
+			padding: 0;
+			margin: 0;
+		}
+
+		#closed-btn {
+			position: fixed;
+			right: 4px;
+			color: #ffffff;
+			background: #eb6ea5;
+			cursor: pointer;
+			text-align: center;
+			font-weight: bolder;
+			border-radius: .3em;
+			z-index: 13;
+		}
+
+		#closed-btn:hover {
+			background: #ffffff;
+			color: #9d5b8b;
+			border: 1px solid #9d5b8b;
+		}
 	</style>
 
 	<script type="module">
@@ -158,9 +213,17 @@
 			let fpv = () => {
 
 				const url_hash = location.hash;
+				let hash_last = url_hash.split("#");
 
-				console.log(url_hash);
-				
+				console.log(hash_last[1].split("/")[1]);
+
+				const gl = document.querySelector("#gl");
+
+				gl.innerHTML = "<iframe src='./fpv.html' width='100%' height='100%'></iframe>"
+
+				$('#overlay').fadeIn();
+				$('#fpv').fadeIn();
+
 				//location.href = "./fpv.html";
 			}
 
@@ -361,6 +424,13 @@
 			layer.bindPopup(popup);
 		}
 
+		const closed_btn = document.querySelector("#closed-btn");
+
+		closed_btn.addEventListener('click', () => {
+			$('#overlay').fadeOut();
+			$('#fpv').fadeOut();
+		});
+
 	</script>
 
 </head>
@@ -373,6 +443,14 @@
 	</div>
 
 	<div id='map'></div>
+
+	<!-- ポップアップ用のoverlay -->
+	<div id="overlay"></div>
+
+	<div id="fpv"><span id="closed-btn" class="py-2 px-3 text-xs">閉じる</span>
+		<div id="gl"></div>
+
+	</div>
 
 </body>
 
