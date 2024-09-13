@@ -38,6 +38,7 @@
 	<script src="./data/toilet.geojson"></script>
 	<script src="./data/warehouse.geojson"></script>
 	<script src="./data/office.geojson"></script>
+	<script src="./data/refuge.geojson"></script>
 
 	<style>
 		html,
@@ -115,6 +116,10 @@
 			color: #aa4c8f;
 		}
 
+		.color_refuge {
+			color: #006e54;
+		}
+
 		#cross {
 			position: fixed;
 			top: 50%;
@@ -150,7 +155,7 @@
 			border-radius: .3em;
 		}
 
-		#gl{
+		#gl {
 			height: 100%;
 			width: 100%;
 			padding: 0;
@@ -175,6 +180,12 @@
 			color: #9d5b8b;
 			border: 1px solid #9d5b8b;
 		}
+
+		#pop_moji {
+			color: #ff0000;
+			font-size: 16px !important;
+		}
+
 	</style>
 
 	<script type="module">
@@ -275,6 +286,10 @@
 			let office_add = L.geoJSON(office, { onEachFeature: popup_office, pointToLayer: office_point });
 			map.addLayer(office_add);
 
+			// 避難場所
+			let refuge_add = L.geoJSON(refuge, { onEachFeature: popup_refuge, pointToLayer: refuge_point });
+			map.addLayer(refuge_add);
+
 			/* レイヤー選択メニュー追加*/
 			const hazardmaps = {
 				"土砂災害(特別)警戒区域": dosya,
@@ -282,6 +297,7 @@
 			};
 
 			const pin = {
+				"指定緊急避難場所": refuge_add,
 				"AED設置箇所": aed_add,
 				"下水道直結式仮設トイレ": toilet_add,
 				"給水拠点": water_add,
@@ -423,6 +439,63 @@
 				popup = "<h1 class='text-lg mb-3'>地域協力事業所</h1>" + feature.properties.name + "<br>" + feature.properties.address;
 
 			} else { };
+
+			layer.bindPopup(popup);
+		}
+
+		/* 避難場所 */
+		let refuge_point = (feature, latlng) => {
+			return L.marker(latlng, {
+				icon: L.divIcon({
+					/*Font Awesomeの埋め込みコード*/
+					html: '<i class="fa-solid fa-person-running fa-flip-horizontal fa-2x"></i>',
+					className: 'color_refuge solid_icon',
+					iconSize: [0, 0]
+				}),
+			});
+		}
+
+		let popup_refuge = (feature, layer) => {
+			let popup;
+			if (feature.properties && feature.properties.Name) {
+				popup = "名称：" + feature.properties.Name;
+			}
+
+			if (feature.properties && feature.properties.Jusho) {
+				popup += '<br>住所：' + feature.properties.Jusho;
+			}
+
+			if (feature.properties && feature.properties.kouzui) {
+				popup += '<br>洪水：<span id = "pop_moji">' + feature.properties.kouzui + '</span>';
+			}
+
+			if (feature.properties && feature.properties.gake) {
+				popup += '　がけ崩れ、土石流及び地滑り：<span id = "pop_moji">' + feature.properties.gake + '</span>　';
+			}
+
+			if (feature.properties && feature.properties.takashio) {
+				popup += '高潮：<span id = "pop_moji">' + feature.properties.takashio + '</span>';
+			}
+
+			if (feature.properties && feature.properties.jishin) {
+				popup += '　地震：<span id = "pop_moji">' + feature.properties.jishin + '</span>';
+			}
+
+			if (feature.properties && feature.properties.tsunami) {
+				popup += '　津波：<span id = "pop_moji">' + feature.properties.tsunami + '</span><br>';
+			}
+
+			if (feature.properties && feature.properties.kaji) {
+				popup += '大規模な火事：<span id = "pop_moji">' + feature.properties.kaji + '</span>';
+			}
+
+			if (feature.properties && feature.properties.naisui) {
+				popup += '　内水氾濫：<span id = "pop_moji">' + feature.properties.naisui + '</span>';
+			}
+
+			if (feature.properties && feature.properties.kazan) {
+				popup += '<br>火山：<span id = "pop_moji">' + feature.properties.kazan + '</span>';
+			}
 
 			layer.bindPopup(popup);
 		}

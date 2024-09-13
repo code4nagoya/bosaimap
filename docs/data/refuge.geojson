@@ -1,0 +1,92 @@
+const refuge = {
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.95669",
+          "35.19793"
+        ]
+      },
+      "properties": {
+        "Name": "守山生涯学習センター",
+        "Jusho": "愛知県名古屋市守山区守山3-2-6",
+        "kouzui": "○",
+        "gake": "○",
+        "takashio": "×",
+        "jishin": "×",
+        "tsunami": "×",
+        "kaji": "×",
+        "naisui": "○",
+        "kazan": "×"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.96932",
+          "35.20258"
+        ]
+      },
+      "properties": {
+        "Name": "守山会館",
+        "Jusho": "愛知県名古屋市守山区西島町19-14",
+        "kouzui": "○",
+        "gake": "○",
+        "takashio": "×",
+        "jishin": "×",
+        "tsunami": "×",
+        "kaji": "×",
+        "naisui": "○",
+        "kazan": "×"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.96462",
+          "35.20142"
+        ]
+      },
+      "properties": {
+        "Name": "守山小学校",
+        "Jusho": "愛知県名古屋市守山区西島町6-27",
+        "kouzui": "○",
+        "gake": "○",
+        "takashio": "×",
+        "jishin": "○",
+        "tsunami": "×",
+        "kaji": "×",
+        "naisui": "○",
+        "kazan": "×"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.9667959",
+          "35.20343716"
+        ]
+      },
+      "properties": {
+        "Name": "守山中学校",
+        "Jusho": "愛知県名古屋市守山区大屋敷13-63",
+        "kouzui": "○",
+        "gake": "○",
+        "takashio": "×",
+        "jishin": "○",
+        "tsunami": "×",
+        "kaji": "×",
+        "naisui": "○",
+        "kazan": "×"
+      }
+    }
+  ]
+};
