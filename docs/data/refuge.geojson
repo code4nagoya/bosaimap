@@ -49,8 +49,8 @@ const refuge = {
       "geometry": {
         "type": "Point",
         "coordinates": [
-          "136.964987",
-          "35.2015754"
+          "136.96463",
+          "35.20142"
         ]
       },
       "properties": {
