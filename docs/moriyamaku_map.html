@@ -249,7 +249,7 @@
 
 			let fpv_button = L.easyButton('fa-male', function () { fpv(); }, { position: 'topright' }).addTo(map);
 
-			const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/maptiler-basic-ja/{z}/{x}/{y}.png', {
+			const tiles = L.tileLayer('https://tile.openstreetmap.jp/styles/osm-bright-ja/{z}/{x}/{y}.png', {
 				maxZoom: 19,
 				attribution: '&copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a><br>&copy; <a href="http://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
 			}).addTo(map);
@@ -458,11 +458,11 @@
 		let popup_refuge = (feature, layer) => {
 			let popup;
 			if (feature.properties && feature.properties.Name) {
-				popup = "名称：" + feature.properties.Name;
+				popup = "<h1 class='text-lg mb-3'>指定緊急避難場所</h1>" + feature.properties.Name;
 			}
 
 			if (feature.properties && feature.properties.Jusho) {
-				popup += '<br>住所：' + feature.properties.Jusho;
+				popup += "<br>" + feature.properties.Jusho;
 			}
 
 			if (feature.properties && feature.properties.kouzui) {

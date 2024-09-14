@@ -1,1 +1,64 @@
-const toilet = {"features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": ["136.9647", "35.2012"]}, "properties": {"name": "守山小学校", "address": "守山区西島町6−27", "place": "正門前の道路（南側）"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": ["136.9661", "35.2033"]}, "properties": {"name": "守山中学校", "address": "守山区大屋敷13−63", "place": "通用門付近（南側）"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": ["136.96937", "35.20264"]}, "properties": {"name": "守山会館", "address": "守山区西島町19−14", "place": "正面入り口 血圧計横"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": ["136.95681", "35.19798"]}, "properties": {"name": "守山生涯学習センター", "address": "守山区守山3丁目2−6", "place": "1階事務室"}}]};
+const toilet = {
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.9647",
+          "35.2012"
+        ]
+      },
+      "properties": {
+        "name": "守山小学校",
+        "address": "守山区西島町6−27",
+        "place": "正門前の道路（南側）"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.9661",
+          "35.2033"
+        ]
+      },
+      "properties": {
+        "name": "守山中学校",
+        "address": "守山区大屋敷13−63",
+        "place": "通用門付近（南側）"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.96683",
+          "35.20064"
+        ]
+      },
+      "properties": {
+        "name": "守山会館",
+        "address": "守山区西島町19−14",
+        "place": "正面入り口 血圧計横"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "136.95681",
+          "35.19798"
+        ]
+      },
+      "properties": {
+        "name": "守山生涯学習センター",
+        "address": "守山区守山3丁目2−6",
+        "place": "1階事務室"
+      }
+    }
+  ]
+};
