@@ -20,7 +20,7 @@
     integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -96,7 +96,7 @@
 
     onload = async () => {
 
-      const { DeckGL, Tile3DLayer, TileLayer, BitmapLayer, COORDINATE_SYSTEM, LinearInterpolator, ScatterplotLayer } = deck;
+      const { DeckGL, Tile3DLayer, TileLayer, BitmapLayer, COORDINATE_SYSTEM, LinearInterpolator } = deck;
 
       const basemap = "https://tile.openstreetmap.jp/styles/osm-bright-ja/style.json";
 
@@ -143,6 +143,28 @@
       const hazard_building = new TileLayer({
         id: 'hazard-building',
         data: 'https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/{z}/{x}/{y}.png',
+        minZoom: 0,
+        maxZoom: 17,
+        tileSize: 256,
+        opacity: 0.4,
+        extensions: [new deck._TerrainExtension()],
+        renderSubLayers: props => {
+          const {
+            bbox: { west, south, east, north }
+          } = props.tile;
+
+          return new BitmapLayer(props, {
+            data: null,
+            image: props.data,
+            _imageCoordinateSystem: COORDINATE_SYSTEM.CARTESIAN,
+            bounds: [west, south, east, north]
+          });
+        }
+      });
+
+      const dosya_building = new TileLayer({
+        id: 'dosya-building',
+        data: 'https://disaportaldata.gsi.go.jp/raster/05_kyukeishakeikaikuiki_data/23/{z}/{x}/{y}.png',
         minZoom: 0,
         maxZoom: 17,
         tileSize: 256,
@@ -224,7 +246,7 @@
         controller: {
           touchRotate: true
         },
-        layers: [layer1, hazard_building],
+        layers: [layer1, hazard_building, dosya_building],
         getTooltip: tooltip
       });
 

@@ -151,19 +151,31 @@
       border: 1px solid #1e50a2;
     }
 
-    .col,
-    a {
-      border-bottom: 2px dotted #008bf2;
+    a{
       color: #008bf2;
     }
 
-    .col {
+    .col
+    {
+      border-bottom: 2px dotted #008bf2;
+      color: #008bf2;
       display: inline-block;
       cursor: pointer;
     }
 
+    .lin{
+      color: #008bf2;
+    }
+
     .link{
       word-wrap: break-word;
+    }
+
+    .imp_box{
+      background: #1e50a2;
+      color: #ffffff;
+      padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+      border-radius: .3em;
     }
 
     @media screen and (min-width: 768px) {
@@ -204,8 +216,8 @@
     <p class="home"><i class="fa-solid fa-xl fa-bars mt-3"></i></p>
     <p class="map"><i class="fa-solid fa-xl fa-map mt-7"></i></p>
     <p class="database"><i class="fa-solid fa-xl fa-database mt-7"></i></p>
-    <p class="share"><i class="fa-solid fa-xl fa-share-nodes mt-7"></i></p>
     <p class="impressions"><i class="fa-solid fa-xl fa-bookmark mt-7"></i></p>
+    <p class="share"><i class="fa-solid fa-xl fa-share-nodes mt-7"></i></p>
   </div>
 
   <div class="nav_button_closed py-2 px-3 mt-1" id="nav_button_closed">
@@ -243,13 +255,13 @@
     <h2 class="text-lg mt-5 px-3">場所を探そう！</h2>
     <span class="mt-2 text-sm mx-3 moriyama col" id="./moriyamaku_map.html" onclick="mapshow(this);">守山区防災マップ <i class="fa-solid fa-sm fa-location-dot"></i></span>
 
+    <span class="mt-2 text-sm mx-3 post col" id="./3dhazard.html" onclick="mapshow(this);">3D版 <i class="fa-solid fa-sm fa-location-dot"></i></span>
+
     <h2 class="text-lg mt-5 px-3">投稿しよう！</h2>
     <span class="mt-2 text-sm mx-3 post col" id="./postmap.html" onclick="mapshow(this);">投稿マップ <i class="fa-solid fa-sm fa-location-dot"></i></span>
 
     <h2 class="text-lg mt-5 px-3">完成したマップ</h2>
-    <span class="mt-2 text-sm mx-3 post col" id="./bosaimap.html" onclick="mapshow(this);">C4N防災マップ <i class="fa-solid fa-sm fa-location-dot"></i></span>
-
-    <span class="mt-2 text-sm mx-3 post col" id="./3dhazard.html" onclick="mapshow(this);">3D版 <i class="fa-solid fa-sm fa-location-dot"></i></span>
+    <span class="mt-2 text-sm mx-3 post col" id="./bosaimap.html" onclick="mapshow(this);">C4N防災マップ <i class="fa-solid fa-sm fa-location-dot"></i></span> 
 
   </div><!-- map-->
 
@@ -259,23 +271,28 @@
 
     <p class="my-5 text-sm px-3">以下のデータを加工・編集し作成</p>
 
-    <p class="mt-5 text-sm mx-3"><a href="https://www.city.nagoya.jp/shobo/page/0000113925.html" class="col" target="_blank">市有防火水槽一覧</a>、名古屋市</p>
+    <p class="mt-5 text-sm mx-3"><a href="https://www.city.nagoya.jp/shobo/page/0000113925.html" class="lin" target="_blank">市有防火水槽一覧 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>、名古屋市</p>
 
-    <p class="mt-5 text-sm mx-3"><a href="https://disaportal.gsi.go.jp/hazardmap/copyright/opendata.html" class="col" target="_blank">ハザードマップポータルサイト</a>、国土交通省</p>
+    <p class="mt-5 text-sm mx-3"><a href="https://disaportal.gsi.go.jp/hazardmap/copyright/opendata.html" class="lin" target="_blank">ハザードマップポータルサイト <i class="fa-solid fa-arrow-up-right-from-square"></i></a>、国土交通省</p>
 
-    <p class="mt-5 text-sm mx-3"><a href="https://www.geospatial.jp/ckan/dataset/plateau" class="col" target="_blank">3D都市モデル（Project PLATEAU）ポータルサイト</a>、G空間情報センター</p>
+    <p class="mt-5 text-sm mx-3"><a href="https://www.geospatial.jp/ckan/dataset/plateau" class="lin" target="_blank">3D都市モデル（Project PLATEAU）ポータルサイト <i class="fa-solid fa-arrow-up-right-from-square"></i></a>、G空間情報センター</p>
 
 
   </div><!-- database -->
 
   <div id="impressions"><span id="closed-btn5" class="py-2 px-3 text-xs"><i class="fa-solid fa-arrow-left"></i></span>
-    <h1 class="text-xl pl-3 pt-3">参考</h1>
+    <h1 class="text-xl pl-3 pt-3 mb-5">参考</h1>
 
-    <p class="mt-5 text-sm px-3"><a href="https://chatgpt.com/g/g-NJU5LoaxD-nan-hai-torahuju-da-di-zhen-bi-nan-simiyureta" class="col" target="_blank">南海トラフ巨大地震 避難シミュレーター</a></p>
-
-    <p class="mt-5 text-sm px-3"><a href="./index.html" class="col" target="_blank">感想</a></p>
+    <span class="mt-5 text-sm mx-3 imp_box"><a href="./index.html" target="_blank">感　想</a></span>
 
     <p class="mt-5 text-sm px-3">↑感想などのGoogleフォームのリンクを貼りたいので、どなたか作成をお願いします。</p>
+
+    <p class="mt-5 text-sm px-3"><a href="https://chatgpt.com/g/g-NJU5LoaxD-nan-hai-torahuju-da-di-zhen-bi-nan-simiyureta" class="lin" target="_blank">南海トラフ巨大地震<br>避難シミュレーター <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+
+    <p class="mt-5 text-sm px-3"><a href="https://dpnote.netlify.app/" class="lin" target="_blank">DP Note <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+
+    <p class="mt-5 text-sm px-3"><a href="https://tabi2.lol/springwater/" class="lin" target="_blank">全国湧き水マップ <i class="fa-solid fa-arrow-up-right-from-square"></i></a></p>
+
 
   </div><!-- map-->
 
