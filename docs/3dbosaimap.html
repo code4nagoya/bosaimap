@@ -96,11 +96,11 @@
 
     onload = async () => {
 
-      const { DeckGL, Tile3DLayer, TileLayer, BitmapLayer, GeoJsonLayer, COORDINATE_SYSTEM, LinearInterpolator } = deck;
+      const { DeckGL, Tile3DLayer, TileLayer, BitmapLayer, GeoJsonLayer, ScenegraphLayer, COORDINATE_SYSTEM, LinearInterpolator } = deck;
 
-      const basemap = "https://tile.openstreetmap.jp/styles/osm-bright-ja/style.json";
+      const basemap = "https://basemaps.cartocdn.com/gl/positron-nolabels-gl-style/style.json";
 
-      const tilelayer = new TileLayer({
+      /*const tilelayer = new TileLayer({
         data: 'https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg',
         minZoom: 0,
         maxZoom: 17,
@@ -118,7 +118,7 @@
             bounds: [west, south, east, north]
           });
         }
-      });
+      });*/
 
       const id = "AKfycbyBJvHJvLBtj759KC7a_B8Wn1146lc4uErwG_o9dgZ6tK_oH0KTcD-5atmUakSwnFWQ";
 
@@ -130,9 +130,9 @@
         data: data,
         filled: true,
         lineWidthMinPixels: 1,
-        getPointRadius: 17,
-        pointRadiusScale: 10,
-        getFillColor: [255,255,255],
+        getPointRadius: 5,
+        pointRadiusScale: 5,
+        getFillColor: [0, 0, 255],
         getLineColor: [231, 231, 235],
         getLineWidth: 1,
         opacity: 1,
@@ -243,7 +243,7 @@
 
         let title;
 
-        title = obj.day + " " + obj.hh + "時" + obj.mm + "分";
+        title = "件名：" + obj.properties.name + "<br>概要：" + obj.properties.overview + "<br><img src='https://lh3.googleusercontent.com/d/" + obj.properties.photo + "' onerror='this.remove()' width='100%'><br>" + obj.properties.timestamp;
 
         const html_tr = ["<table>", title, "</table>"].join("\n");
 
